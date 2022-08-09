@@ -66,3 +66,23 @@ COPY
 db.trips.find({ "$expr": { "$and": [ { "$gt": [ "$tripduration", 1200 ]},
                          { "$eq": [ "$end station id", "$start station id" ]}
                        ]}}).count()
+
+Switch to this database:
+
+
+COPY
+use sample_airbnb
+Find all documents with exactly 20 amenities which include all the amenities listed in the query array:
+
+
+COPY
+db.listingsAndReviews.find({ "amenities": {
+                                  "$size": 20,
+                                  "$all": [ "Internet", "Wifi",  "Kitchen",
+                                           "Heating", "Family/kid friendly",
+                                           "Washer", "Dryer", "Essentials",
+                                           "Shampoo", "Hangers",
+                                           "Hair dryer", "Iron",
+                                           "Laptop friendly workspace" ]
+                                         }
+                            }).pretty()
