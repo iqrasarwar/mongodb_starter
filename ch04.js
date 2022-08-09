@@ -51,3 +51,18 @@ db.routes.find({ "$and": [ { "$or" :[ { "dst_airport": "KZN" },
                           { "$or" :[ { "airplane": "CR2" },
                                      { "airplane": "A81" } ] }
                          ]}).pretty()
+
+
+Find all documents where the trip started and ended at the same station:
+
+
+COPY
+db.trips.find({ "$expr": { "$eq": [ "$end station id", "$start station id"] }
+              }).count()
+Find all documents where the trip lasted longer than 1200 seconds, and started and ended at the same station:
+
+
+COPY
+db.trips.find({ "$expr": { "$and": [ { "$gt": [ "$tripduration", 1200 ]},
+                         { "$eq": [ "$end station id", "$start station id" ]}
+                       ]}}).count()
